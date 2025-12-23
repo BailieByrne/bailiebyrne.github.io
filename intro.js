@@ -10,17 +10,17 @@
     return current;
   }
 
-  function runIntroOnce(current) {
-    if (current !== 'home') return;
+  function shouldPlayIntro(current) {
+    if (current !== 'home') return false;
 
-    var hasSeen = false;
-    try {
-      hasSeen = localStorage.getItem('introSeen') === '1';
-      if (!hasSeen) localStorage.setItem('introSeen', '1');
-    } catch (err) {
-      // Ignore storage errors; still show once per load.
-    }
-    if (hasSeen) return;
+    // Play only on reload, not when navigating from another page.
+    var navEntry = (performance && performance.getEntriesByType) ? performance.getEntriesByType('navigation')[0] : null;
+    var isReload = navEntry ? navEntry.type === 'reload' : (performance.navigation && performance.navigation.type === 1);
+    return !!isReload;
+  }
+
+  function runIntroIfNeeded(current) {
+    if (!shouldPlayIntro(current)) return;
 
     var overlay = document.createElement('div');
     overlay.className = 'intro-overlay';
@@ -29,7 +29,7 @@
       '<div class="intro-card">',
         '<p class="intro-sub">Welcome</p>',
         '<h2 class="intro-title">Bailie Byrne</h2>',
-        '<p class="intro-cta">Systems builder · Low-latency · Clean delivery</p>',
+        '<p class="intro-cta">Software Engineering · Scalability · Efficiency</p>',
       '</div>'
     ].join('');
 
@@ -50,7 +50,7 @@
 
   function init() {
     var current = markActiveTab();
-    runIntroOnce(current);
+    runIntroIfNeeded(current);
   }
 
   if (document.readyState === 'loading') {
