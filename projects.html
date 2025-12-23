@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bailie Byrne | Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="projects">
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <span class="dot"></span>
+        <span>Bailie Byrne</span>
+      </a>
+      <div class="nav-tabs" role="tablist">
+        <a class="tab" data-page-link="home" href="index.html">Home</a>
+        <a class="tab" data-page-link="experience" href="experience.html">Experience</a>
+        <a class="tab" data-page-link="education" href="education.html">Education</a>
+        <a class="tab" data-page-link="projects" href="projects.html">Projects</a>
+        <a class="tab" data-page-link="contact" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Projects</h1>
+        <p class="subtitle">Selected builds spanning AI, multiplayer systems, and secure web platforms.</p>
+        <div class="cta-row">
+          <a class="btn" href="index.html">Back to Home</a>
+          <a class="btn" href="my_cv.pdf" target="_blank" rel="noopener">Download CV</a>
+        </div>
+      </div>
+    </section>
+
+    <p class="section-title">Highlights</p>
+    <div class="cards">
+      <article class="card">
+        <h3>Python MMORPG</h3>
+        <p class="meta">Multiplayer · AI · Python | SQL | TypeScript</p>
+        <ul>
+          <li>Built a fully functioning online MMORPG with AI pathfinding and angular math for gameplay.</li>
+          <li>Managed data across 10+ file types and sizes; designed generative loot containers for 4,096 concurrent players.</li>
+        </ul>
+        <div class="chips">
+          <span class="chip">Python</span>
+          <span class="chip">SQL</span>
+          <span class="chip">TypeScript</span>
+          <span class="chip">AI Pathfinding</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Java Web Banking App</h3>
+        <p class="meta">Enterprise-grade · Java | React | SQL | JS</p>
+        <ul>
+          <li>Shipped Spring Boot backend with JWT, CORS filters, and self-signed SSL for HTTPS.</li>
+          <li>Delivered a React front-end with sub-20ms responses and 20+ REST endpoints (secured + public).</li>
+          <li>Tested with JUnit and validated APIs via Postman.</li>
+        </ul>
+        <div class="chips">
+          <span class="chip">Spring Boot</span>
+          <span class="chip">React</span>
+          <span class="chip">SQL</span>
+          <span class="chip">JWT</span>
+          <span class="chip">HTTPS</span>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    Built by Bailie Byrne — algorithmic thinking, systems focus, and clean delivery.
+  </footer>
+
+  <script>
+    const current = document.body.dataset.page;
+    document.querySelectorAll('[data-page-link]').forEach(link => {
+      if (link.dataset.pageLink === current) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>

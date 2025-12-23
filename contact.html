@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bailie Byrne | Contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="contact">
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <span class="dot"></span>
+        <span>Bailie Byrne</span>
+      </a>
+      <div class="nav-tabs" role="tablist">
+        <a class="tab" data-page-link="home" href="index.html">Home</a>
+        <a class="tab" data-page-link="experience" href="experience.html">Experience</a>
+        <a class="tab" data-page-link="education" href="education.html">Education</a>
+        <a class="tab" data-page-link="projects" href="projects.html">Projects</a>
+        <a class="tab" data-page-link="contact" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Let’s Connect</h1>
+        <p class="subtitle">Open to internships, collaborations, and roles where systems thinking and algorithmic rigor matter.</p>
+        <div class="cta-row">
+          <a class="btn" href="mailto:byrnebailie@gmail.com">Email Me</a>
+          <a class="btn" href="my_cv.pdf" target="_blank" rel="noopener">Download CV</a>
+        </div>
+      </div>
+      <div class="contact-links">
+        <a class="pill" href="mailto:byrnebailie@gmail.com"><span class="pill-label">Email</span><span>byrnebailie@gmail.com</span></a>
+        <a class="pill" href="https://linkedin.com/in/bailie-byrne" target="_blank" rel="noopener"><span class="pill-label">LinkedIn</span><span>linkedin.com/in/bailie-byrne</span></a>
+        <a class="pill" href="https://github.com/bailiebyrne" target="_blank" rel="noopener"><span class="pill-label">GitHub</span><span>github.com/bailiebyrne</span></a>
+      </div>
+    </section>
+
+    <p class="section-title">Response Time</p>
+    <div class="cards">
+      <article class="card">
+        <h3>Expect a reply within 24 hours</h3>
+        <p class="meta">Email or LinkedIn works best.</p>
+        <div class="chips">
+          <span class="chip">Email</span>
+          <span class="chip">LinkedIn</span>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    Built by Bailie Byrne — algorithmic thinking, systems focus, and clean delivery.
+  </footer>
+
+  <script>
+    const current = document.body.dataset.page;
+    document.querySelectorAll('[data-page-link]').forEach(link => {
+      if (link.dataset.pageLink === current) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>

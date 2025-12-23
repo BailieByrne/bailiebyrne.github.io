@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bailie Byrne | Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="education">
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <span class="dot"></span>
+        <span>Bailie Byrne</span>
+      </a>
+      <div class="nav-tabs" role="tablist">
+        <a class="tab" data-page-link="home" href="index.html">Home</a>
+        <a class="tab" data-page-link="experience" href="experience.html">Experience</a>
+        <a class="tab" data-page-link="education" href="education.html">Education</a>
+        <a class="tab" data-page-link="projects" href="projects.html">Projects</a>
+        <a class="tab" data-page-link="contact" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Education</h1>
+        <p class="subtitle">Academic track with a focus on algorithms, systems, and software engineering.</p>
+        <div class="cta-row">
+          <a class="btn" href="my_cv.pdf" target="_blank" rel="noopener">Download CV</a>
+          <a class="btn" href="projects.html">See Projects</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="cards">
+      <article class="card">
+        <h3>BSc (Hons) Computer Science with Software Development</h3>
+        <p class="meta">University of Liverpool · Sep 2024 – Jun 2028</p>
+        <ul>
+          <li>Achieved 1st Class in Year 1 (Avg: 80%).</li>
+          <li>Relevant modules: Data Structures & Algorithms, Software Engineering, Database Development, Computer Networks, Theory of Computation.</li>
+        </ul>
+        <div class="chips">
+          <span class="chip">Algorithms</span>
+          <span class="chip">Systems</span>
+          <span class="chip">Networks</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>A Levels</h3>
+        <p class="meta">King Edward VI Stourbridge · Sep 2022 – Jun 2024</p>
+        <ul>
+          <li>Computer Science, Mathematics, Physics; awarded Collis Prize for Computer Science.</li>
+        </ul>
+        <div class="chips">
+          <span class="chip">CompSci</span>
+          <span class="chip">Maths</span>
+          <span class="chip">Physics</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Secondary Education</h3>
+        <p class="meta">Wolverley COE Secondary · Before 2022</p>
+        <ul>
+          <li>Foundation secondary education preparing for A-Level study.</li>
+        </ul>
+        <div class="chips">
+          <span class="chip">GCSEs</span>
+          <span class="chip">Core Subjects</span>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    Built by Bailie Byrne — algorithmic thinking, systems focus, and clean delivery.
+  </footer>
+
+  <script>
+    const current = document.body.dataset.page;
+    document.querySelectorAll('[data-page-link]').forEach(link => {
+      if (link.dataset.pageLink === current) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>

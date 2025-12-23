@@ -1,7 +1,349 @@
-<body style="margin:0;display:flex;flex-direction:column;height:100vh;">
-  <div style="padding:1rem;text-align:center;">
-    <h1>This Website Is Currently Under Construction</h1>
-    <h2>-Bailie Byrne</h2>
-  </div>
-  <embed src="my_cv.pdf" type="application/pdf" style="flex:1;border:none;"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bailie Byrne | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Road Map container styled to match hero theme */
+    #road-map {
+      position: relative;
+      width: 100%;
+      height: 360px;
+      margin-top: 1rem;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) 1px, transparent 1px, transparent 32px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) 1px, transparent 1px, transparent 32px),
+        linear-gradient(145deg, rgba(22, 31, 45, 0.95), rgba(16, 23, 35, 0.95));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      box-sizing: border-box;
+      touch-action: none; /* Allow custom pan/zoom */
+      cursor: grab;
+    }
+    #road-map.panning { cursor: grabbing; }
+    .road-map-content {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0; /* grows with nodes */
+      height: 0;
+      transform-origin: 0 0;
+      will-change: transform;
+    }
+    /* Animations */
+    @keyframes flowingPulse {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -30; }
+    }
+
+    /* Edge styling */
+    .road-edge {
+      stroke: var(--accent-2);
+      stroke-opacity: 0.6;
+      stroke-width: 2;
+      stroke-dasharray: 20, 10;
+      vector-effect: non-scaling-stroke;
+    }
+    .road-edge.flowing {
+      animation: flowingPulse 2s linear infinite;
+    }
+    .road-edge.completed {
+      stroke: #10b981;
+      stroke-opacity: 0.8;
+    }
+    .road-edge.declined {
+      stroke: #ef4444;
+      stroke-opacity: 0.7;
+    }
+    .road-edge.pending {
+      stroke: #9ca3af;
+      stroke-opacity: 0.6;
+    }
+
+    /* Node styling: circular and on-theme */
+    .road-node {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.12) 0%, var(--card) 60%),
+                  var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 10px 20px rgba(0, 0, 0, 0.3),
+        inset -2px -2px 8px rgba(0, 0, 0, 0.5),
+        inset 2px 2px 8px rgba(255, 255, 255, 0.08);
+      font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 12px;
+      user-select: none;
+      cursor: default;
+      transition: transform 150ms ease, border-color 300ms ease, background 300ms ease, box-shadow 300ms ease;
+    }
+    .road-node-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      line-height: 1.2;
+      color: var(--text);
+    }
+    .road-node-subtitle {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      letter-spacing: 0.1px;
+    }
+    /* Status colors */
+    .road-node.completed {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+    }
+    .road-node.declined {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+    .road-node.pending {
+      border-color: #9ca3af;
+      background: rgba(156, 163, 175, 0.1);
+    }
+    .road-node:hover {
+      transform: scale(1.12);
+      cursor: pointer;
+      transition: transform 150ms ease;
+    }
+
+    /* Modal overlay and window */
+    .roadmap-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .roadmap-modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow), 0 0 60px rgba(57, 197, 255, 0.3);
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      animation: slideUp 300ms ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .roadmap-modal-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 36px;
+      height: 36px;
+      background: #ef4444;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 200ms ease;
+    }
+    .roadmap-modal-close:hover {
+      background: #dc2626;
+      transform: scale(1.1);
+    }
+    .roadmap-modal h2 {
+      margin: 0 0 1rem 0;
+      color: var(--text);
+      font-size: 1.5rem;
+    }
+    .roadmap-modal p {
+      margin: 0.5rem 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    /* nodes are fixed; no dragging state */
+  </style>
+</head>
+<body data-page="home">
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">
+        <span class="dot"></span>
+        <span>Bailie Byrne</span>
+      </a>
+      <div class="nav-tabs" role="tablist">
+        <a class="tab" data-page-link="home" href="index.html">Home</a>
+        <a class="tab" data-page-link="experience" href="experience.html">Experience</a>
+        <a class="tab" data-page-link="education" href="education.html">Education</a>
+        <a class="tab" data-page-link="projects" href="projects.html">Projects</a>
+        <a class="tab" data-page-link="contact" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div>
+        <h1>Bailie Byrne</h1>
+        <div class="tags">
+          <span class="tag">C++</span>
+          <span class="tag">Java</span>
+          <span class="tag">Python</span>
+          <span class="tag">Low-Latency</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn" href="my_cv.pdf" target="_blank" rel="noopener">View CV (PDF)</a>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill">
+            <div class="skill-head">
+              <span class="skill-name">Python</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <div class="bar"><div class="bar-fill bar-full" style="--pct:90%;"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-head">
+              <span class="skill-name">Java</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <div class="bar"><div class="bar-fill bar-high" style="--pct:80%;"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-head">
+              <span class="skill-name">C++</span>
+              <span class="skill-pct">70%</span>
+            </div>
+            <div class="bar"><div class="bar-fill bar-mid" style="--pct:70%;"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-head">
+              <span class="skill-name">Haskell</span>
+              <span class="skill-pct">60%</span>
+            </div>
+            <div class="bar"><div class="bar-fill bar-mid" style="--pct:60%;"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-head">
+              <span class="skill-name">JavaScript / TypeScript</span>
+              <span class="skill-pct">50%</span>
+            </div>
+            <div class="bar"><div class="bar-fill bar-mid" style="--pct:50%;"></div></div>
+          </div>
+          <div class="skill">
+            <div class="skill-head">
+              <span class="skill-name">ADA</span>
+              <span class="skill-pct">25%</span>
+            </div>
+            <div class="bar"><div class="bar-fill bar-low" style="--pct:25%;"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-section">
+        <div class="contact-links">
+          <a class="pill" href="mailto:byrnebailie@gmail.com"><span class="pill-label">Email</span><span>byrnebailie@gmail.com</span></a>
+          <a class="pill" href="https://linkedin.com/in/bailie-byrne" target="_blank" rel="noopener"><span class="pill-label">LinkedIn</span><span>linkedin.com/in/bailie-byrne</span></a>
+          <a class="pill" href="https://github.com/bailiebyrne" target="_blank" rel="noopener"><span class="pill-label">GitHub</span><span>github.com/bailiebyrne</span></a>
+        </div>
+
+        <div class="institutions-grid">
+          <a href="https://www.liverpool.ac.uk" target="_blank" rel="noopener" class="institution-card" title="University of Liverpool">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23161f2d'/%3E%3Ctext x='60' y='60' text-anchor='middle' dy='.3em' fill='%237dd3fc' font-size='14' font-weight='bold'%3EUoL%3C/text%3E%3C/svg%3E" alt="University of Liverpool" />
+            <div class="institution-info">
+              <span class="inst-name">University of Liverpool</span>
+              <span class="inst-detail">1st Class Year 1 (80%)</span>
+            </div>
+          </a>
+          <a href="https://www.kedst.ac.uk" target="_blank" rel="noopener" class="institution-card" title="King Edward VI Stourbridge">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23161f2d'/%3E%3Ctext x='60' y='60' text-anchor='middle' dy='.3em' fill='%237dd3fc' font-size='12' font-weight='bold'%3EKEVI%3C/text%3E%3C/svg%3E" alt="King Edward VI Stourbridge" />
+            <div class="institution-info">
+              <span class="inst-name">King Edward VI</span>
+              <span class="inst-detail">CS, Maths, Physics</span>
+            </div>
+          </a>
+          <a href="https://www.wolverley.worcs.sch.uk" target="_blank" rel="noopener" class="institution-card" title="Wolverley COE Secondary">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23161f2d'/%3E%3Ctext x='60' y='60' text-anchor='middle' dy='.3em' fill='%237dd3fc' font-size='12' font-weight='bold'%3EWCS%3C/text%3E%3C/svg%3E" alt="Wolverley COE Secondary" />
+            <div class="institution-info">
+              <span class="inst-name">Wolverley COE</span>
+              <span class="inst-detail">Secondary Education</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- Life Road-Map heading and viewport (full width, after hero) -->
+    <div style="width: 100%; margin-bottom: 1.25rem;">
+      <h3 class="section-title">Life Road-Map</h3>
+      <section id="road-map" aria-label="Road Map"></section>
+      <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; letter-spacing: 0.3px;">Drag to move · Scroll to zoom</p>
+      <button id="roadmap-reset" style="margin-top: 0.75rem; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border); background: rgba(57, 197, 255, 0.12); color: var(--accent-2); font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: all 200ms ease;" onclick="resetRoadMapView()">Reset</button>
+    </div>
+    <section class="about-section">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-box">
+        <p class="subtitle">Second-year Computer Science student at the University of Liverpool, passionate about low-latency algorithmic systems, high-performance computing, and applied mathematics. I tinker with FPGAs for fun and ship dependable software with a systems mindset.</p>
+        <p class="subtitle">I have loved software engineering for over a decade. What started as curiosity became a constant pull to understand how things work and turn ideas into real, functioning systems. Writing code feels like exploration, creativity, and problem-solving all at once.</p>
+        <p class="subtitle">That passion has shaped every opportunity I have stepped into—gravitating toward challenging environments where learning never stops and responsibility comes early. Outside of work and university, I spend my free time experimenting with hardware and low-level systems, breaking things and rebuilding them better. For me, software engineering is something I have grown with for years and intend to keep growing into for the rest of my life.</p>
+      </div>
+    </section>
+
+    <section class="experience-section">
+      <h2 class="section-title">Experience Highlights</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Professional & Research Track</h3>
+          <div class="meta">FPGA tinkering · AI vision · systems thinking</div>
+          <ul>
+            <li>Interned at BAE SYSTEMS where I engineered C++ AI vision tooling, built a custom neural network, and introduced a universal debugger to speed up fault analysis.</li>
+            <li>Worked on MiDAS autonomy systems during Sixth Form study, developing mission-critical software aligned to UK MoD models.</li>
+            <li>Led customer-focused entertainment operations at West Midlands Safari Park, supporting 2,000+ visitors without complaints.</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn" href="experience.html">Read the full experience page</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built by Bailie Byrne — algorithmic thinking, systems focus, and clean delivery.
+  </footer>
+
+  <script>
+    const current = document.body.dataset.page;
+    document.querySelectorAll('[data-page-link]').forEach(link => {
+      if (link.dataset.pageLink === current) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+  <script src="roadmap.js" defer></script>
+
 </body>
+</html>
