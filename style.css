@@ -470,21 +470,55 @@ footer {
 
 @media (max-width: 640px) {
   .nav {
-  box-shadow: 0 0 14px rgba(244, 114, 182, 0.55);
-  animation-duration: 1.4s;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .brand {
+    width: 100%;
   }
 
   .nav-tabs {
-  box-shadow: none;
-  animation: none;
-  opacity: 0.72;
-}
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0.35rem;
+  }
+
   .tab {
-    flex: 1 1 45%;
-  0% { filter: drop-shadow(0 0 6px rgba(200, 132, 255, 0.3)); }
-  50% { filter: drop-shadow(0 0 16px rgba(200, 132, 255, 0.75)); }
-  100% { filter: drop-shadow(0 0 6px rgba(200, 132, 255, 0.3)); }
+    flex: 1 1 auto;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  /* Mobile roadmap responsive styles */
+  #road-map {
+    height: 400px;
+    min-height: 400px;
+    touch-action: manipulation;
+  }
+
+  .road-node {
+    width: 120px;
+    height: 120px;
+  }
+
+  .road-node-title {
+    font-size: 0.8rem;
+  }
+
+  .road-node-subtitle {
+    font-size: 0.65rem;
+  }
 }
 
 @keyframes stripeFlow {

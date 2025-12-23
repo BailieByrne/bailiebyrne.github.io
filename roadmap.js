@@ -157,6 +157,10 @@
     var nodeStartLeft = 0;
     var nodeStartTop = 0;
 
+    // Touch pinch-zoom support
+    var touchPoints = {};
+    var lastTouchDistance = 0;
+
     function applyTransform() {
       content.style.transform = 'translate(' + panX + 'px, ' + panY + 'px) scale(' + scale + ')';
     }
@@ -267,6 +271,76 @@
     roadMap.addEventListener('pointerdown', onPointerDown);
     roadMap.addEventListener('pointermove', onPointerMove);
     roadMap.addEventListener('pointerup', onPointerUp);
+
+    // Touch pinch-zoom support (mobile)
+    function getTouchDistance(p1, p2) {
+      var dx = p1.clientX - p2.clientX;
+      var dy = p1.clientY - p2.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function getTouchCenterPoint(points) {
+      var pointArray = Object.values(points);
+      var sumX = 0, sumY = 0;
+      pointArray.forEach(function(p) {
+        sumX += p.clientX;
+        sumY += p.clientY;
+      });
+      return {
+        x: sumX / pointArray.length,
+        y: sumY / pointArray.length
+      };
+    }
+
+    roadMap.addEventListener('pointerdown', function(e) {
+      touchPoints[e.pointerId] = e;
+      lastTouchDistance = 0;
+    });
+
+    roadMap.addEventListener('pointermove', function(e) {
+      if (touchPoints[e.pointerId]) {
+        touchPoints[e.pointerId] = e;
+      }
+      
+      // Handle pinch-zoom with 2+ touch points
+      var pointArray = Object.values(touchPoints);
+      if (pointArray.length >= 2) {
+        var p1 = pointArray[0];
+        var p2 = pointArray[1];
+        var currentDistance = getTouchDistance(p1, p2);
+        
+        if (lastTouchDistance > 0) {
+          var factor = currentDistance / lastTouchDistance;
+          var center = getTouchCenterPoint(touchPoints);
+          var rect = roadMap.getBoundingClientRect();
+          var csx = center.x - rect.left;
+          var csy = center.y - rect.top;
+          var c0x = (csx - panX) / scale;
+          var c0y = (csy - panY) / scale;
+
+          var newScale = scale * factor;
+          if (newScale < MIN_SCALE) newScale = MIN_SCALE;
+          if (newScale > MAX_SCALE) newScale = MAX_SCALE;
+
+          panX = csx - c0x * newScale;
+          panY = csy - c0y * newScale;
+          scale = newScale;
+          autoCenter = false;
+          applyTransform();
+        }
+        lastTouchDistance = currentDistance;
+      }
+    });
+
+    roadMap.addEventListener('pointerup', function(e) {
+      delete touchPoints[e.pointerId];
+      lastTouchDistance = 0;
+    });
+
+    roadMap.addEventListener('pointercancel', function(e) {
+      delete touchPoints[e.pointerId];
+      lastTouchDistance = 0;
+    });
 
     // Node dragging is handled per-node within createNode; background pan below
 
