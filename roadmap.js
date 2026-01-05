@@ -70,15 +70,114 @@
       closeBtn.innerHTML = '&times;';
       closeBtn.onclick = function () { overlay.remove(); };
 
+      // Pre-rendered structure for each node
+      var titleDiv = document.createElement('div');
+      titleDiv.className = 'roadmap-modal-title-container';
       var title = document.createElement('h2');
-      title.textContent = nodeName;
+      title.className = 'roadmap-modal-title';
+      titleDiv.appendChild(title);
 
-      var info = document.createElement('p');
-      info.textContent = 'Details about ' + nodeName + ' coming soon.';
+      var contentDiv = document.createElement('div');
+      contentDiv.className = 'roadmap-modal-content-container';
+      
+      var descriptionDiv = document.createElement('div');
+      descriptionDiv.className = 'roadmap-modal-description';
+      descriptionDiv.style.textDecoration = 'underline';
+      descriptionDiv.style.whiteSpace = 'pre-wrap';
+      contentDiv.appendChild(descriptionDiv);
+
+      var detailsDiv = document.createElement('div');
+      detailsDiv.className = 'roadmap-modal-details';
+      detailsDiv.style.fontStyle = 'italic';
+      detailsDiv.style.color = '#888';
+      detailsDiv.style.marginTop = '1rem';
+      detailsDiv.style.lineHeight = '1.6';
+      detailsDiv.style.whiteSpace = 'pre-wrap';
+      contentDiv.appendChild(detailsDiv);
+
+      var metadataDiv = document.createElement('div');
+      metadataDiv.className = 'roadmap-modal-metadata';
+      metadataDiv.style.marginTop = '1rem';
+      metadataDiv.style.fontWeight = 'bold';
+      metadataDiv.style.textShadow = '0 0 10px currentColor';
+      contentDiv.appendChild(metadataDiv);
+
+      // Hardcoded the data for each node (No need to dynamicise anymore)
+      switch(nodeName) {
+        case 'Wolverley':
+          title.textContent = 'Wolverley';
+          descriptionDiv.textContent = 'My secondary education';
+          detailsDiv.textContent = 'GCSEs';
+          metadataDiv.textContent = '2017-2022';
+          metadataDiv.style.color = '#888';
+          break;
+        case 'King Edward VI':
+          title.textContent = 'King Edward VI';
+          descriptionDiv.textContent = '#1 Ranked College In Worcestershire.';
+          detailsDiv.textContent = 'Achieved my A-Levels in: \nComputer Science\nMaths\nPhysics\n';
+          metadataDiv.textContent = 'Completed';
+          metadataDiv.style.color = '#22c55e';
+          break;
+        case 'University of Liverpool':
+          title.textContent = 'University of Liverpool';
+          descriptionDiv.textContent = 'BSc Computer Science with Software Development with Industrial Year';
+          detailsDiv.textContent = 'Recieved 1st Class Average for 1st Year (80%)';
+          metadataDiv.textContent = '2024-2028';
+          metadataDiv.style.color = '#888';
+          break;
+        case 'Placement Year':
+          title.textContent = 'Placement Year';
+          descriptionDiv.textContent = 'Industrial placement year';
+          detailsDiv.textContent = 'Year in industry';
+          metadataDiv.textContent = '2026-2027';
+          metadataDiv.style.color = '#888';
+          break;
+        case 'Python MMORPG':
+          title.textContent = 'Python MMORPG';
+          descriptionDiv.textContent = 'University group project';
+          detailsDiv.textContent = 'Multiplayer online game';
+          metadataDiv.textContent = 'Completed';
+          metadataDiv.style.color = '#22c55e';
+          break;
+        case 'Java Banking app':
+          title.textContent = 'Java Banking app';
+          descriptionDiv.textContent = 'University coursework';
+          detailsDiv.textContent = 'Banking application';
+          metadataDiv.textContent = 'Completed';
+          metadataDiv.style.color = '#22c55e';
+          break;
+        case 'BAE Systems Air':
+          title.textContent = 'BAE Systems Air';
+          descriptionDiv.textContent = 'Summer internship';
+          detailsDiv.textContent = 'During my time at BAE, I was integrated into the MIDAS (Mission Director and Autonomy Systems) team.  \n \nThis was comprised of many software and systems engineers, exposing me to the full SDLC lifecycle.  \n \nI worked on mission-critical software aligned to UK MoD standards, contributing to autonomy systems for unmanned aerial vehicles amongst other projects. \n \nThis experience solidified my interest in defence software engineering and provided invaluable industry insight.';
+          metadataDiv.textContent = 'Completed';
+          metadataDiv.style.color = '#22c55e';
+          break;
+        case 'BAE Systems Naval':
+          title.textContent = 'BAE Systems Naval';
+          descriptionDiv.textContent = 'Placement Year Offer';
+          detailsDiv.textContent = 'Following from my prior history at BAE Systems I was gratefully offered a position at their New Malden location to work in their Naval Software Engineering team. \n \nHowever after careful consideration, factors including relocation costs to high expense areas made other offers more feasible.';
+          metadataDiv.textContent = 'Declined';
+          metadataDiv.style.color = '#ef4444';
+          break;
+        case 'CGI Inc':
+          title.textContent = 'CGI Inc';
+          descriptionDiv.textContent = 'Placement Year Offer';
+          detailsDiv.textContent = 'Often referred to as #5 globally for IT and business consulting services, CGI Inc provided a highly appealing placement opportunity. \n \nAfter progressing through multiple rigorous interview stages, I was delighted to receive an offer to join their graduate placement scheme for my industrial year. \n \nThe role promises exposure to diverse projects and professional growth within a leading global firm.';
+          metadataDiv.textContent = 'Accepted Offer';
+          metadataDiv.style.color = '#22c55e';
+          break;
+        default:
+          title.textContent = nodeName;
+          descriptionDiv.textContent = 'Error: No data available for this node.';
+          detailsDiv.textContent = 'Please contact Bailie Byrne to report.';
+          metadataDiv.textContent = 'If possible take a snapshot of your HTML in your browsers console for debugging.';
+          metadataDiv.style.color = '#ff0000ff';
+      }
 
       modal.appendChild(closeBtn);
-      modal.appendChild(title);
-      modal.appendChild(info);
+      modal.appendChild(titleDiv);
+      modal.appendChild(contentDiv);
       overlay.appendChild(modal);
 
       overlay.onclick = function (e) {
@@ -181,7 +280,7 @@
     var baseY = 200;     // vertical baseline
     var stepX = 320;     // horizontal spacing between main-line nodes
     var branchDX = 160;  // branch horizontal offset
-    var branchDY = 180;  // branch vertical offset (positive is downward)
+    var branchDY = 180;  // branch vertical offset
 
     var nWolverley = createNode('Wolverley', 0 * stepX, baseY, 'High School');
     var nKingEdward = createNode('King Edward VI', 1 * stepX, baseY, 'College');
@@ -227,7 +326,7 @@
     // Initial load with preset zoom and pan values
     requestAnimationFrame(function () { applyTransform(); });
 
-    // Expose reset function to window for button click handler
+    //reset function to window for button click handler
     window.resetRoadMapView = function () {
       scale = 1.06;
       panX = 75;
