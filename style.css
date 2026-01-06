@@ -224,6 +224,30 @@ main {
   letter-spacing: -0.5px;
 }
 
+.profile-tags-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.35rem;
+  width: fit-content;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+  box-shadow: var(--glow);
+  margin-left: 3rem;
+}
+
+.profile-pic:hover {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 30px rgba(125, 211, 252, 0.6);
+  transform:scale(1.03);
+}
+
 .hero .subtitle {
   margin: 0 0 1rem;
   color: var(--muted);

@@ -1,11 +1,13 @@
 // Animated hexagon background with glow effect on hover
 (function() {
-  function initHexagonBackground() {
-    // Create the background container
-    var bgContainer = document.createElement('div');
-    bgContainer.className = 'hex-background';
-    document.body.insertBefore(bgContainer, document.body.firstChild);
-
+  var bgContainer = null;
+  
+  function createHexagons() {
+    if (!bgContainer) return;
+    
+    // Clear existing hexagons
+    bgContainer.innerHTML = '';
+    
     // hexagon configuration
     var hexSize = 80;
     var hexSpacing = 10;
@@ -41,15 +43,26 @@
         });
       }
     }
+  }
+  
+  function initHexagonBackground() {
+    // Create the background container only once
+    bgContainer = document.querySelector('.hex-background');
+    if (!bgContainer) {
+      bgContainer = document.createElement('div');
+      bgContainer.className = 'hex-background';
+      document.body.insertBefore(bgContainer, document.body.firstChild);
+    }
+    
+    createHexagons();
 
     // Resize handler to regenerate hexagons if window size changes
     var resizeTimeout;
     window.addEventListener('resize', function() {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(function() {
-        bgContainer.innerHTML = '';
-        initHexagonBackground();
-      }, 500);
+        createHexagons();
+      }, 250);
     });
   }
 
