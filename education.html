@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Basic metadata and charset setup -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bailie Byrne | Education</title>
+  
+  <!-- Font imports - Space Grotesk for that clean look -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Main styles - all css is centralized here -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body data-page="education">
+  <!-- Header with navigation -->
   <header>
     <div class="nav">
       <a class="brand" href="index.html">
@@ -26,11 +32,14 @@
     </div>
   </header>
 
+  <!-- Main content area -->
   <main>
+    <!-- Hero section explaining education -->
     <section class="hero">
       <div>
         <h1>Education</h1>
         <p class="subtitle">Academic track with a focus on algorithms, systems, and software engineering.</p>
+        <!-- CTA buttons for cv and projects -->
         <div class="cta-row">
           <a class="btn" href="my_cv.pdf" target="_blank" rel="noopener">Download CV</a>
           <a class="btn" href="projects.html">See Projects</a>
@@ -38,14 +47,18 @@
       </div>
     </section>
 
+    <!-- education cards showing degrees and qualifications -->
     <div class="cards">
+      <!-- university section -->
       <article class="card">
         <h3>BSc (Hons) Computer Science with Software Development</h3>
         <p class="meta">University of Liverpool · Sep 2024 – Jun 2028</p>
+        <!-- key points about the degree -->
         <ul>
           <li>Achieved 1st Class in Year 1 (Avg: 80%).</li>
           <li>Relevant modules: Data Structures & Algorithms, Software Engineering, Database Development, Computer Networks, Theory of Computation.</li>
         </ul>
+        <!-- skill tags from this qualification -->
         <div class="chips">
           <span class="chip">Algorithms</span>
           <span class="chip">Systems</span>
@@ -53,12 +66,15 @@
         </div>
       </article>
 
+      <!-- a-levels -->
       <article class="card">
         <h3>A Levels</h3>
         <p class="meta">King Edward VI Stourbridge · Sep 2022 – Jun 2024</p>
+        <!-- achievements and prize -->
         <ul>
           <li>Computer Science, Mathematics, Physics; awarded Collis Prize for Computer Science.</li>
         </ul>
+        <!-- subject areas -->
         <div class="chips">
           <span class="chip">CompSci</span>
           <span class="chip">Maths</span>
@@ -66,12 +82,15 @@
         </div>
       </article>
 
+      <!-- secondary education section -->
       <article class="card">
         <h3>Secondary Education</h3>
         <p class="meta">Wolverley COE Secondary · Before 2022</p>
+        <!-- foundation level info -->
         <ul>
           <li>Foundation secondary education preparing for A-Level study.</li>
         </ul>
+        <!-- areas studied -->
         <div class="chips">
           <span class="chip">GCSEs</span>
           <span class="chip">Core Subjects</span>
@@ -80,11 +99,14 @@
     </div>
   </main>
 
+  <!-- Footer with tagline -->
   <footer>
     Built by Bailie Byrne — algorithmic thinking, systems focus, and clean delivery.
   </footer>
 
+  <!-- Script to handle navigation highlighting -->
   <script>
+    // Mark the active nav tab based on the current page
     const current = document.body.dataset.page;
     document.querySelectorAll('[data-page-link]').forEach(link => {
       if (link.dataset.pageLink === current) {

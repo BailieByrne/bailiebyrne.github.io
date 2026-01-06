@@ -70,7 +70,7 @@
       closeBtn.innerHTML = '&times;';
       closeBtn.onclick = function () { overlay.remove(); };
 
-      // Pre-rendered structure for each node
+      // Pre rendered structure for each node
       var titleDiv = document.createElement('div');
       titleDiv.className = 'roadmap-modal-title-container';
       var title = document.createElement('h2');

@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Basic metadata and charset setup -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bailie Byrne | Projects</title>
+  
+  <!-- Font import for that clean look -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Main styles - all css is centralized here -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body data-page="projects">
+  <!-- Header with navigation -->
   <header>
     <div class="nav">
       <a class="brand" href="index.html">
@@ -26,11 +32,14 @@
     </div>
   </header>
 
+  <!-- Main content area -->
   <main>
+    <!-- Hero section with project overview -->
     <section class="hero">
       <div>
         <h1>Projects</h1>
         <p class="subtitle">Selected builds spanning AI, multiplayer systems, and secure web platforms.</p>
+        <!-- CTA buttons -->
         <div class="cta-row">
           <a class="btn" href="index.html">Back to Home</a>
           <a class="btn" href="my_cv.pdf" target="_blank" rel="noopener">Download CV</a>
@@ -38,15 +47,19 @@
       </div>
     </section>
 
+    <!-- Project highlights section -->
     <p class="section-title">Highlights</p>
     <div class="cards">
+      <!-- MMORPG project -->
       <article class="card">
         <h3>Python MMORPG</h3>
         <p class="meta">Multiplayer · AI · Python | SQL | TypeScript</p>
+        <!-- project details and accomplishments -->
         <ul>
           <li>Built a fully functioning online MMORPG with AI pathfinding and angular math for gameplay.</li>
           <li>Managed data across 10+ file types and sizes; designed generative loot containers for 4,096 concurrent players.</li>
         </ul>
+        <!-- technlologies used in this project -->
         <div class="chips">
           <span class="chip">Python</span>
           <span class="chip">SQL</span>
@@ -55,14 +68,17 @@
         </div>
       </article>
 
+      <!-- Banking app project -->
       <article class="card">
         <h3>Java Web Banking App</h3>
         <p class="meta">Enterprise-grade · Java | React | SQL | JS</p>
+        <!-- Key features and accomplishments -->
         <ul>
           <li>Shipped Spring Boot backend with JWT, CORS filters, and self-signed SSL for HTTPS.</li>
           <li>Delivered a React front-end with sub-20ms responses and 20+ REST endpoints (secured + public).</li>
           <li>Tested with JUnit and validated APIs via Postman.</li>
         </ul>
+        <!-- Stack and tools -->
         <div class="chips">
           <span class="chip">Spring Boot</span>
           <span class="chip">React</span>
@@ -74,11 +90,14 @@
     </div>
   </main>
 
+  <!-- Footer with tagline -->
   <footer>
     Built by Bailie Byrne — algorithmic thinking, systems focus, and clean delivery.
   </footer>
 
+  <!-- Script to handle navigation highlighting -->
   <script>
+    // Mark the active nav tab based on the current page
     const current = document.body.dataset.page;
     document.querySelectorAll('[data-page-link]').forEach(link => {
       if (link.dataset.pageLink === current) {
