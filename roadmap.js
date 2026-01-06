@@ -115,7 +115,7 @@
           title.textContent = 'King Edward VI';
           descriptionDiv.textContent = '#1 Ranked College In Worcestershire.';
           detailsDiv.textContent = 'Achieved my A-Levels in: \nComputer Science\nMaths\nPhysics\n';
-          metadataDiv.textContent = 'Completed';
+          metadataDiv.textContent = '2022-2024';
           metadataDiv.style.color = '#22c55e';
           break;
         case 'University of Liverpool':
@@ -134,14 +134,14 @@
           break;
         case 'Python MMORPG':
           title.textContent = 'Python MMORPG';
-          descriptionDiv.textContent = 'University group project';
+          descriptionDiv.textContent = 'Own Hobby Project';
           detailsDiv.textContent = 'Multiplayer online game';
           metadataDiv.textContent = 'Completed';
           metadataDiv.style.color = '#22c55e';
           break;
         case 'Java Banking app':
           title.textContent = 'Java Banking app';
-          descriptionDiv.textContent = 'University coursework';
+          descriptionDiv.textContent = 'Own Hobby Project';
           detailsDiv.textContent = 'Banking application';
           metadataDiv.textContent = 'Completed';
           metadataDiv.style.color = '#22c55e';
