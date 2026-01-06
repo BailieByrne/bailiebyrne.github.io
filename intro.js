@@ -13,14 +13,19 @@
   function shouldPlayIntro(current) {
     if (current !== 'home') return false;
 
-    // Play only on reload, not when navigating from another page.
-    var navEntry = (performance && performance.getEntriesByType) ? performance.getEntriesByType('navigation')[0] : null;
-    var isReload = navEntry ? navEntry.type === 'reload' : (performance.navigation && performance.navigation.type === 1);
-    return !!isReload;
+    // Check if intro has already been shown in this session
+    if (sessionStorage.getItem('introShown')) {
+      return false;
+    }
+
+    return true;
   }
 
   function runIntroIfNeeded(current) {
     if (!shouldPlayIntro(current)) return;
+
+    // Mark intro as shown for this session
+    sessionStorage.setItem('introShown', 'true');
 
     var overlay = document.createElement('div');
     overlay.className = 'intro-overlay';
