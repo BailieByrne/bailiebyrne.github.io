@@ -510,15 +510,20 @@ main {
 }
 
 .institution-card img {
-  width: 70%;
-  height: 70%;
+  max-width: 90%;
+  max-height: 90%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   filter: opacity(0.85);
   transition: filter var(--transition), opacity var(--transition);
   z-index: 1;
-  /* keep images crisp and clear when scaled */
-  image-rendering: crisp-edges;
+  /* keep logos sharp without upscaling */
   image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+  transform: translateZ(0);
 }
 
 .institution-card:hover img {
