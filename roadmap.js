@@ -118,6 +118,13 @@
           metadataDiv.textContent = '2022-2024';
           metadataDiv.style.color = '#22c55e';
           break;
+        case 'Collis Award for Computer Science':
+          title.textContent = 'Collis Award for Computer Science';
+          descriptionDiv.textContent = 'King Edward VI named award';
+          detailsDiv.textContent = 'A named award presented in recognition of my proficiency and passion in Computer Science.';
+          metadataDiv.textContent = 'Awarded';
+          metadataDiv.style.color = '#3b82f6';
+          break;
         case 'University of Liverpool':
           title.textContent = 'University of Liverpool';
           descriptionDiv.textContent = 'BSc Computer Science with Software Development with Industrial Year';
@@ -165,6 +172,20 @@
           descriptionDiv.textContent = 'Placement Year Offer';
           detailsDiv.textContent = 'Often referred to as #5 globally for IT and business consulting services, CGI Inc provided a highly appealing placement opportunity. \n \nAfter progressing through multiple rigorous interview stages, I was delighted to receive an offer to join their graduate placement scheme for my industrial year. \n \nThe role promises exposure to diverse projects and professional growth within a leading global firm.';
           metadataDiv.textContent = 'Accepted Offer';
+          metadataDiv.style.color = '#22c55e';
+          break;
+        case 'Honeywell Software Engineer':
+          title.textContent = 'Honeywell Software Engineer';
+          descriptionDiv.textContent = 'Placement Year Offer';
+          detailsDiv.textContent = 'I progressed through the process and received an offer for a software engineering placement role at Honeywell. \n \nAfter reviewing all options, I declined this offer because another company provided slightly better arrangements, and Honeywell was not willing to match or exceed them.';
+          metadataDiv.textContent = 'Declined';
+          metadataDiv.style.color = '#ef4444';
+          break;
+        case 'Freelance Web Development':
+          title.textContent = 'Freelance Web Development';
+          descriptionDiv.textContent = 'Client project: Sugar & Victoria';
+          detailsDiv.innerHTML = 'Built a JAMstack website using a headless CMS so the owner could manage and fully own their site content. <br><br>Configured DNS and deployment for <a href="https://sugarandvictoria.com" target="_blank" rel="noopener noreferrer">sugarandvictoria.com</a>. <br><br>Sugar & Victoria are finalists in the English Business Awards for the Worcestershire area (2026).';
+          metadataDiv.textContent = 'Completed';
           metadataDiv.style.color = '#22c55e';
           break;
         default:
@@ -240,11 +261,11 @@
     }
 
     // Interaction state
-    var scale = 1.06;
+    var scale = 0.73;
     var MIN_SCALE = 0.5;
     var MAX_SCALE = 2.0;
-    var panX = 75;
-    var panY = -119;
+    var panX = 24;
+    var panY = -12;
     var isPanning = false;
     var lastPointerX = 0;
     var lastPointerY = 0;
@@ -287,18 +308,24 @@
     var nUni = createNode('University of Liverpool', 2 * stepX, baseY, 'University');
     var nPlacement = createNode('Placement Year', 3 * stepX, baseY, 'University');
 
+    var nCollisAward = createNode('Collis Award for Computer Science', 1 * stepX - branchDX, baseY - branchDY, 'King Edward VI');
     var nPythonMMO = createNode('Python MMORPG', 1 * stepX + branchDX, baseY - branchDY, 'Project');
     var nBanking = createNode('Java Banking app', 2 * stepX + branchDX, baseY - branchDY, 'Project');
+    var nFreelanceWeb = createNode('Freelance Web Development', 2 * stepX - branchDX, baseY + branchDY, 'Freelance');
     var nBAEAir = createNode('BAE Systems Air', 2 * stepX + branchDX, baseY + branchDY, 'Internship');
     var nBAENaval = createNode('BAE Systems Naval', 3 * stepX + branchDX, baseY - branchDY, 'Placement Year');
     var nCGI = createNode('CGI Inc', 3 * stepX + branchDX, baseY + branchDY, 'Placement Year');
+    var nHoneywell = createNode('Honeywell Software Engineer', 4 * stepX + branchDX, baseY + branchDY, 'Placement Year');
 
     // Status mapping: completed, declined, pending
+    nCollisAward.el.classList.add('award');
     nPythonMMO.el.classList.add('completed');
     nBanking.el.classList.add('completed');
+    nFreelanceWeb.el.classList.add('completed');
     nBAEAir.el.classList.add('completed');
     nBAENaval.el.classList.add('declined');
-    nCGI.el.classList.add('pending');
+    nCGI.el.classList.add('completed');
+    nHoneywell.el.classList.add('declined');
 
     // Edges: main line left->right (flowing)
     var e1 = createEdge('Wolverley', 'King Edward VI');
@@ -309,17 +336,23 @@
     e3.line.classList.add('flowing');
 
     // Branches with status colors and flowing animation
-    var e4 = createEdge('King Edward VI', 'Python MMORPG');
-    var e5 = createEdge('University of Liverpool', 'Java Banking app');
-    var e6 = createEdge('University of Liverpool', 'BAE Systems Air');
-    var e7 = createEdge('Placement Year', 'BAE Systems Naval');
-    var e8 = createEdge('Placement Year', 'CGI Inc');
+    var e4 = createEdge('King Edward VI', 'Collis Award for Computer Science');
+    var e5 = createEdge('King Edward VI', 'Python MMORPG');
+    var e6 = createEdge('University of Liverpool', 'Java Banking app');
+    var e7 = createEdge('University of Liverpool', 'Freelance Web Development');
+    var e8 = createEdge('University of Liverpool', 'BAE Systems Air');
+    var e9 = createEdge('Placement Year', 'BAE Systems Naval');
+    var e10 = createEdge('Placement Year', 'CGI Inc');
+    var e11 = createEdge('Placement Year', 'Honeywell Software Engineer');
     
-    e4.line.classList.add('flowing', 'completed');
+    e4.line.classList.add('flowing', 'award');
     e5.line.classList.add('flowing', 'completed');
     e6.line.classList.add('flowing', 'completed');
-    e7.line.classList.add('flowing', 'declined');
-    e8.line.classList.add('flowing', 'pending');
+    e7.line.classList.add('flowing', 'completed');
+    e8.line.classList.add('flowing', 'completed');
+    e9.line.classList.add('flowing', 'declined');
+    e10.line.classList.add('flowing', 'completed');
+    e11.line.classList.add('flowing', 'declined');
 
     // Size SVG to cover all nodes/edges
     resizeSvgToFitNodes();
@@ -328,9 +361,9 @@
 
     //reset function to window for button click handler
     window.resetRoadMapView = function () {
-      scale = 1.06;
-      panX = 75;
-      panY = -119;
+      scale = 0.73;
+      panX = 24;
+      panY = -12;
       autoCenter = true;
       applyTransform();
     };

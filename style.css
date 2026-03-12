@@ -834,6 +834,12 @@ body.intro-playing {
   stroke-opacity: 0.6;
 }
 
+/* award nodes/edges use blue styling */
+.road-edge.award {
+  stroke: #0c4f85;
+  stroke-opacity: 0.85;
+}
+
 /* circular node styling these are the main events */
 .road-node {
   position: absolute;
@@ -896,6 +902,12 @@ body.intro-playing {
   background: rgba(156, 163, 175, 0.1);
 }
 
+/* status colors - award nodes */
+.road-node.award {
+  border-color: #0c4f85;
+  background: rgba(59, 130, 246, 0.12);
+}
+
 /* hover effect for nodes makes them pop */
 /*Add parralax effect to snap*/
 .road-node:hover {
@@ -935,6 +947,11 @@ body.intro-playing {
   width: 90%;
   position: relative;
   animation: slideUp 300ms ease;
+}
+
+.roadmap-modal-details a {
+  color: #7dd3fc;
+  text-decoration: underline;
 }
 
 /* smooth entrance animation for the modal */
