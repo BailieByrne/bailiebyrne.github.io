@@ -368,6 +368,10 @@ main {
   transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
+.card[data-href] {
+  cursor: pointer;
+}
+
 .card::after {
   content: "";
   position: absolute;
@@ -381,6 +385,10 @@ main {
 .card:hover {
   transform: translateY(-4px);
   border-color: rgba(57, 197, 255, 0.7);
+}
+
+.card[data-href]:hover {
+  box-shadow: 0 20px 60px rgba(57, 197, 255, 0.25);
 }
 
 .card:hover::after {
