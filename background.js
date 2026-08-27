@@ -91,8 +91,15 @@
       
       // Draw normal or hovered hexagon
       if (hoveredHex === hex) {
-        // Purple hover effect with fill
-        drawHexagon(hex.x, hex.y, hexSize * 0.45, 'rgba(95, 53, 232, 0.1)', 2, 'rgba(146, 51, 234, 0.1)');
+        // Lightweight, contained ripple: two small outlines expand and fade inside the hexagon.
+        drawHexagon(hex.x, hex.y, hexSize * 0.45, 'rgba(57, 197, 255, 0.38)', 1.5);
+        var rippleCycle = (time % 1400) / 1400;
+        for (var ripple = 0; ripple < 2; ripple++) {
+          var progress = (rippleCycle + ripple * 0.5) % 1;
+          var rippleSize = hexSize * (0.1 + progress * 0.3);
+          var rippleOpacity = 0.28 * (1 - progress);
+          drawHexagon(hex.x, hex.y, rippleSize, 'rgba(57, 197, 255, ' + rippleOpacity + ')', 1);
+        }
       } else {
         // Normal blue hexagon
         var color = 'rgba(57, 197, 255, ' + opacity + ')';
